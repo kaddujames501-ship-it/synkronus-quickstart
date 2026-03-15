@@ -48,6 +48,9 @@ The installer will:
 
 The script prints admin username and password (save them). Once the server is up, log in with those credentials and you can create new users from the UI. Use **https://your-domain/** or **https://&lt;your-ip&gt;.sslip.io/** (with TLS), or **http://localhost/** for local-only.
 
+> **Note:** If you don't see the portal but get a certificate error instead, try restarting Caddy: `podman restart synkronus_caddy`.  
+> On first boot, Caddy requests a Let's Encrypt certificate; validation can occasionally fail on the first attempt if the endpoint is not yet reachable. If HTTPS still isn't ready after a minute, check the Caddy logs and restart the Caddy container once.
+
 ---
 
 ### Local Installation (manual)
