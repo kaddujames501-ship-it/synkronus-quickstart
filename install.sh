@@ -108,7 +108,7 @@ services:
     ports: []   # only via Caddy
 
   caddy:
-    image: caddy:2-alpine
+    image: docker.io/caddy:2-alpine
     container_name: synkronus_caddy
     ports:
       - "80:80"
@@ -133,7 +133,7 @@ services:
     ports: []   # only via Caddy
 
   caddy:
-    image: caddy:2-alpine
+    image: docker.io/caddy:2-alpine
     container_name: synkronus_caddy
     ports:
       - "80:80"
