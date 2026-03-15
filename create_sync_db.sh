@@ -15,8 +15,8 @@ fi
 
 DB_USER="synk_$USERNAME"
 DB_NAME="synk_$USERNAME"
-PASSWORD=$(openssl rand -base64 30 | tr -d /=+ | cut -c1-48)
-SUGGESTED_ADMIN_PASSWORD=$(openssl rand -base64 30 | tr -d /=+ | cut -c1-48)
+PASSWORD=$(openssl rand -base64 30 | tr -d /=+ | cut -c1-40)
+SUGGESTED_ADMIN_PASSWORD=$(openssl rand -base64 30 | tr -d /=+ | cut -c1-40)
 
 # Check if database exists
 DB_EXISTS=$(docker exec postgres psql -U postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME';")

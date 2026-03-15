@@ -15,7 +15,28 @@ Welcome! This repository provides a ready-to-run setup of **ODE: Synkronus**, in
 
 ## Quick Start
 
-### Local Installation
+### Easiest: run the installer
+
+From the repo root, run the installer. It will:
+
+- Generate strong passwords and inject them into `docker-compose.yml`
+- Ask whether you have a **domain name** for this server:
+  - **Yes** → You enter your domain. **Caddy** is placed in front and will automatically obtain and renew a TLS certificate (Let’s Encrypt). No Certbot or manual steps.
+  - **No** → You enter this server’s **public IP** or `localhost`:
+    - **Public IP** → The installer uses **&lt;ip&gt;.sslip.io** as the hostname so Caddy can still provision a real TLS certificate. You get HTTPS with no domain.
+    - **localhost** → Caddy serves on port 80 only (no TLS), for local testing.
+
+```bash
+chmod +x ./install.sh
+./install.sh
+docker compose up -d
+```
+
+The script prints admin username and password (save them). Use **https://your-domain/** or **https://&lt;your-ip&gt;.sslip.io/** (with TLS), or **http://localhost/** for local-only.
+
+---
+
+### Local Installation (manual)
 
 1. Clone this repo:
 
