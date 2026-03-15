@@ -17,6 +17,12 @@ Welcome! This repository provides a ready-to-run setup of **ODE: Synkronus**, in
 
 We recommend **Podman** with **podman compose** (or `podman-compose`); the same steps work with Docker and Docker Compose if you prefer.
 
+> **Clean Ubuntu server?** Install the needed tools with:
+> ```bash
+> sudo apt update
+> sudo apt install -y podman podman-compose git
+> ```
+
 ### Easiest: run the installer
 
 Clone the repo (shallow clone is enough), then from the repo root run the installer:
