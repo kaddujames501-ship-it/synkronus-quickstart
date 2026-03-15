@@ -28,8 +28,8 @@ We recommend **Podman** with **podman compose** (or `podman-compose`); the same 
 Clone the repo (shallow clone is enough), then from the repo root run the installer:
 
 ```bash
-git clone --depth 1 https://github.com/OpenDataEnsemble/synkronus-quickstart.git
-cd synkronus-quickstart
+git clone --depth 1 https://github.com/OpenDataEnsemble/synkronus-quickstart.git server
+cd server
 chmod +x ./install.sh
 ./install.sh
 podman compose up -d
