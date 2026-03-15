@@ -89,7 +89,6 @@ curl <forwarded-url>/health
 
 > Notes:
 >
-> * No UI yet — the API is used with 'Formulus' or 'synkronus-cli'.
 > * Perfect for experimenting or as a base for production setups.
 
 ---
