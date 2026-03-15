@@ -15,6 +15,8 @@ Welcome! This repository provides a ready-to-run setup of **ODE: Synkronus**, in
 
 ## Quick Start
 
+We recommend **Podman** with **podman compose** (or `podman-compose`); the same steps work with Docker and Docker Compose if you prefer.
+
 ### Easiest: run the installer
 
 Clone the repo (shallow clone is enough), then from the repo root run the installer:
@@ -24,8 +26,10 @@ git clone --depth 1 https://github.com/OpenDataEnsemble/synkronus-quickstart.git
 cd synkronus-quickstart
 chmod +x ./install.sh
 ./install.sh
-docker compose up -d
+podman compose up -d
 ```
+
+(With Docker, use `docker compose up -d` instead.)
 
 The installer will:
 
@@ -63,13 +67,13 @@ Optionally you can choose to map the volumes to specific mountpoints on the host
 
 1. Prepare a database for synkonus
 
-   Start only the `db` service from Docker Compose:
+   Start only the `db` service:
 
    ```bash
-   docker compose up db
+   podman compose up db
    ```
 
-   This will start the database container and keep it running in the foreground.
+   (Use `docker compose up db` if you use Docker.) This keeps the database container running in the foreground.
 
    In a separate terminal, make the `create_sync_db.sh` script executable:
 
@@ -85,12 +89,13 @@ Optionally you can choose to map the volumes to specific mountpoints on the host
 
    The script will connect to the running `db` container and set up the required database and user account.
 
-
 1. Start the services:
 
 ```bash
-docker compose up -d
+podman compose up -d
 ```
+
+(Use `docker compose up -d` with Docker.)
 
 1. Verify the server is running:
 
