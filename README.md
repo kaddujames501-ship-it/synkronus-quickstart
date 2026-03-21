@@ -9,7 +9,7 @@ Welcome! This repository provides a ready-to-run setup of **ODE: Synkronus**, in
 * Fully containerized Synkronus server
 * Includes Postgres database
 * Supports local usage and GitHub Codespaces
-* Easy environment variable configuration
+* Single named volume for all Synkronus mutable data (`/app/data` in the container)
 
 ---
 
@@ -51,6 +51,23 @@ The script prints admin username and password (save them). Once the server is up
 > **Note:** If you don't see the portal but get a certificate error instead, try restarting Caddy: `podman restart synkronus_caddy`.  
 > On first boot, Caddy requests a Let's Encrypt certificate; validation can occasionally fail on the first attempt if the endpoint is not yet reachable. If HTTPS still isn't ready after a minute, check the Caddy logs and restart the Caddy container once.
 
+### Data storage layout
+
+Synkronus stores mutable files under **`/app/data`** in the container (one volume: `appdata`). You do **not** set `DATA_DIR` or `APP_BUNDLE_PATH` for the default layout. Subdirectories are:
+
+| Path in volume | Purpose |
+|----------------|---------|
+| `app-bundle/active/` | Current app bundle (extracted) |
+| `app-bundle/versions/` | Numbered versions and `CURRENT_VERSION` |
+| `attachments/` | Attachment blobs |
+
+### Utilities (`utilities/`)
+
+| Script | When to use |
+|--------|-------------|
+| [`utilities/backup-attachments.sh`](./utilities/backup-attachments.sh) | Copy attachment blobs **from a running** Synkronus container to the host (see `--help`). |
+| [`utilities/migrate-synkronus-data.sh`](./utilities/migrate-synkronus-data.sh) | Migrate bundle folder layout on the **volume**; run with the **stack stopped** (see [upgrade-path.md](./upgrade-path.md)). |
+
 ---
 
 ### Local Installation (manual)
@@ -62,19 +79,19 @@ git clone https://github.com/OpenDataEnsemble/synkronus-quickstart.git
 cd synkronus-quickstart
 ```
 
-1. Adjust env variables the `docker-compose.yml` file.
+2. Adjust env variables in `docker-compose.yml`.
 
   - In the postgres service:
-    - POSTGRES_PASSWORD
+    - `POSTGRES_PASSWORD`
   - In the synkronus service:
-    - DB_CONNECTION (update to match POSTGRES_PASSWORD)
-    - JWT_SECRET (generate a new one with: 'openssl rand -base64 32')
-    - ADMIN_USERNAME
-    - ADMIN_PASSWORD
+    - `DB_CONNECTION` (update to match `POSTGRES_PASSWORD`)
+    - `JWT_SECRET` (generate a new one with: `openssl rand -base64 32`)
+    - `ADMIN_USERNAME`
+    - `ADMIN_PASSWORD`
 
-Optionally you can choose to map the volumes to specific mountpoints on the host.
+Optionally map volumes to specific mount points on the host (ensure the Synkronus user can write: UID **1000** in the official image).
 
-1. Prepare a database for synkonus
+3. Prepare a database for Synkronus
 
    Start only the `db` service:
 
@@ -98,7 +115,7 @@ Optionally you can choose to map the volumes to specific mountpoints on the host
 
    The script will connect to the running `db` container and set up the required database and user account.
 
-1. Start the services:
+4. Start the services:
 
 ```bash
 podman compose up -d
@@ -106,12 +123,20 @@ podman compose up -d
 
 (Use `docker compose up -d` with Docker.)
 
-1. Verify the server is running:
+5. Verify the server is running:
 
 ```bash
 curl http://localhost:8080/health
 # Should return "OK"
 ```
+
+---
+
+### Upgrading from an older quickstart
+
+If you previously used `APP_BUNDLE_PATH: /app/data/app-bundles` and separate version paths, see **[upgrade-path.md](./upgrade-path.md)** and **`utilities/migrate-synkronus-data.sh`** to move bundle data into **`app-bundle/active`** and **`app-bundle/versions`** safely (stop the stack first, back up the volume, then migrate).
+
+**Attachments:** On some older setups, blobs may have lived outside the `appdata` volume. Use **`utilities/backup-attachments.sh`** while the container is **running** to copy files off the host, then merge into the volume if needed. The migrate script only changes paths **inside** the volume.
 
 ---
 
