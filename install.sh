@@ -165,7 +165,7 @@ echo "  podman compose logs -f caddy"
 echo ""
 echo "  Upgrading from a pre-release layout (app-bundles / app-bundle-versions)?"
 echo "  See upgrade-path.md and utilities/migrate-synkronus-data.sh (stop the stack first)."
-echo "  Backup attachments from a running container: utilities/backup-attachments.sh"
+echo "  Backup attachments / DB from running containers: utilities/backup-attachments.sh, utilities/backup-db.sh"
 echo ""
 if [ -n "$SITE_HOST" ]; then
     echo "  Synkronus will be at https://${SITE_HOST}/"

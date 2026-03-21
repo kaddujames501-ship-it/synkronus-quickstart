@@ -66,6 +66,7 @@ Synkronus stores mutable files under **`/app/data`** in the container (one volum
 | Script | When to use |
 |--------|-------------|
 | [`utilities/backup-attachments.sh`](./utilities/backup-attachments.sh) | Copy attachment blobs **from a running** Synkronus container to the host (see `--help`). |
+| [`utilities/backup-db.sh`](./utilities/backup-db.sh) | **`pg_dump`** the Postgres DB to a `.sql` file while **`db` / `postgres`** is running (see `--help`). |
 | [`utilities/migrate-synkronus-data.sh`](./utilities/migrate-synkronus-data.sh) | Migrate bundle folder layout on the **volume**; run with the **stack stopped** (see [upgrade-path.md](./upgrade-path.md)). |
 
 ---
