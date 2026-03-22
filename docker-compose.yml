@@ -37,7 +37,7 @@ services:
     expose:
       - "5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U synkronus_user"]
+      test: ["CMD-SHELL", "pg_isready -U synkronus_user -d synkronus"]
       interval: 10s
       timeout: 5s
       retries: 5
